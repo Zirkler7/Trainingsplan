@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Trainingsplan">
+<title>Trainingsplan 💪</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;900&family=Barlow+Condensed:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #0c0c10;
+    --card: #161620;
+    --border: #ffffff12;
+    --text: #f0f0f0;
+    --muted: #64748b;
+    --orange: #f97316;
+    --blue: #3b82f6;
+    --green: #22c55e;
+    --purple: #a855f7;
+  }
+  html { background: var(--bg); }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Barlow', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 100px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(160deg, #1a1a2e 0%, #0f3460 100%);
+    padding: 48px 20px 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .header-label {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 6px;
+  }
+  .header h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 36px; font-weight: 900; letter-spacing: -0.5px;
+    line-height: 1;
+  }
+  .stats {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;
+  }
+  .stat {
+    background: #ffffff0d; border-radius: 10px; padding: 8px 14px;
+  }
+  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .stat-val { font-size: 15px; font-weight: 700; }
+
+  /* TABS */
+  .tabs { padding: 14px 16px 0; }
+  .tab-bar {
+    display: flex; gap: 6px; background: #161620;
+    border-radius: 12px; padding: 4px;
+  }
+  .tab-btn {
+    flex: 1; padding: 10px 0; border-radius: 9px; border: none;
+    cursor: pointer; font-family: 'Barlow', sans-serif;
+    font-weight: 700; font-size: 13px; transition: all 0.2s;
+    background: transparent; color: var(--muted);
+  }
+  .tab-btn.active { background: var(--blue); color: #fff; }
+
+  /* CONTENT */
+  .content { padding: 16px; }
+
+  /* DAY GRID */
+  .day-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+  .day-card {
+    background: var(--card); border: 2px solid var(--border);
+    border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .day-card.active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
+  .day-emoji { font-size: 22px; margin-bottom: 4px; }
+  .day-name { font-weight: 800; font-size: 14px; }
+  .day-desc { font-size: 11px; color: var(--muted); margin-top: 3px; }
+
+  /* PROGRESS */
+  .progress-box {
+    background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px;
+  }
+  .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: #94a3b8; }
+  .progress-count { font-weight: 700; }
+  .progress-bar-bg { background: #ffffff10; border-radius: 100px; height: 8px; overflow: hidden; }
+  .progress-bar-fill {
+    height: 100%; border-radius: 100px; transition: width 0.4s ease;
+  }
+
+  /* EXERCISES */
+  .exercise-list { display: flex; flex-direction: column; gap: 10px; }
+  .ex-card {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ex-card.done { opacity: 0.65; }
+  .ex-row { display: flex; align-items: flex-start; gap: 12px; }
+  .ex-check {
+    width: 26px; height: 26px; border-radius: 8px; background: #ffffff10;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+    transition: all 0.2s;
+  }
+  .ex-check.checked { color: #fff; }
+  .ex-name { font-weight: 700; font-size: 15px; transition: all 0.2s; }
+  .ex-name.done { text-decoration: line-through; color: var(--muted); }
+  .ex-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+  .ex-tag {
+    font-size: 11px; background: #ffffff0d; border-radius: 6px;
+    padding: 3px 9px; color: #94a3b8;
+  }
+  .ex-tag span { font-weight: 700; }
+  .ex-tipp { font-size: 12px; color: var(--muted); margin-top: 9px; font-style: italic; }
+
+  /* NUTRITION */
+  .info-card {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 16px; margin-bottom: 12px;
+  }
+  .info-card-title { font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+  .info-card-body { font-size: 13px; color: #94a3b8; line-height: 1.65; }
+  .meal-row { display: flex; gap: 10px; margin-bottom: 8px; font-size: 12px; }
+  .meal-name { font-weight: 700; min-width: 95px; }
+  .meal-food { color: #94a3b8; }
+
+  /* TIPS */
+  .tip-card {
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 14px; padding: 16px; margin-bottom: 10px;
+    display: flex; gap: 12px; align-items: flex-start;
+  }
+  .tip-num {
+    width: 30px; height: 30px; border-radius: 9px;
+    background: #a855f720; display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 800; color: var(--purple); flex-shrink: 0;
+  }
+  .tip-text { font-size: 13px; color: #cbd5e1; line-height: 1.65; }
+
+  .highlight-card {
+    border-radius: 14px; padding: 16px; margin-bottom: 14px;
+  }
+  .highlight-title { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
+  .highlight-body { font-size: 13px; color: #cbd5e1; line-height: 1.65; }
+
+  /* HIDDEN */
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-label">4-Tage Split · Muskelaufbau</div>
+  <h1>Training Plan 💪</h1>
+  <div class="stats">
+    <div class="stat"><div class="stat-label">Alter</div><div class="stat-val">16 J.</div></div>
+    <div class="stat"><div class="stat-label">Gewicht</div><div class="stat-val">64 kg</div></div>
+    <div class="stat"><div class="stat-label">Größe</div><div class="stat-val">1,80 m</div></div>
+    <div class="stat"><div class="stat-label">Tage/Wo</div><div class="stat-val">4</div></div>
+  </div>
+</div>
+
+<div class="tabs">
+  <div class="tab-bar">
+    <button class="tab-btn active" onclick="showTab('plan', this)">🏋️ Training</button>
+    <button class="tab-btn" onclick="showTab('ernaehrung', this)">🥗 Ernährung</button>
+    <button class="tab-btn" onclick="showTab('tipps', this)">💡 Tipps</button>
+  </div>
+</div>
+
+<div class="content">
+
+  <!-- TRAINING TAB -->
+  <div id="tab-plan" class="tab-content active">
+    <div class="day-grid">
+      <div class="day-card active" style="--accent:#f97316" onclick="selectDay(0,this,'#f97316')">
+        <div class="day-emoji">🔥</div>
+        <div class="day-name" style="color:#f97316">Dienstag</div>
+        <div class="day-desc">PUSH · Brust, Schultern, Trizeps</div>
+      </div>
+      <div class="day-card" style="--accent:#3b82f6" onclick="selectDay(1,this,'#3b82f6')">
+        <div class="day-emoji">💪</div>
+        <div class="day-name">Donnerstag</div>
+        <div class="day-desc">PULL · Rücken, Bizeps</div>
+      </div>
+      <div class="day-card" style="--accent:#22c55e" onclick="selectDay(2,this,'#22c55e')">
+        <div class="day-emoji">🦵</div>
+        <div class="day-name">Samstag</div>
+        <div class="day-desc">LEGS · Beine & Core</div>
+      </div>
+      <div class="day-card" style="--accent:#a855f7" onclick="selectDay(3,this,'#a855f7')">
+        <div class="day-emoji">⚡</div>
+        <div class="day-name">Sonntag</div>
+        <div class="day-desc">UPPER · Oberkörper</div>
+      </div>
+    </div>
+
+    <div class="progress-box">
+      <div class="progress-header">
+        <span>Fortschritt heute</span>
+        <span class="progress-count" id="prog-count">0/6</span>
+      </div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="prog-bar" style="width:0%;background:#f97316"></div>
+      </div>
+    </div>
+
+    <div class="exercise-list" id="exercise-list"></div>
+  </div>
+
+  <!-- ERNAEHRUNG TAB -->
+  <div id="tab-ernaehrung" class="tab-content">
+    <div class="highlight-card" style="background:#f9731618;border:1.5px solid #f9731640">
+      <div class="highlight-title" style="color:#f97316">⚡ Wichtigster Grundsatz</div>
+      <div class="highlight-body">Mit 16 und deinem Körpergewicht brauchst du einen <strong style="color:#f0f0f0">Kalorienüberschuss</strong>. Ohne genug Essen wächst kein Muskel – egal wie hart du trainierst.</div>
+    </div>
+    <div class="info-card"><div class="info-card-title" style="color:#22c55e">Kalorienüberschuss</div><div class="info-card-body">+300–500 kcal täglich über Bedarf (ca. 2600–2800 kcal/Tag)</div></div>
+    <div class="info-card"><div class="info-card-title" style="color:#22c55e">Protein</div><div class="info-card-body">Mind. 130–150g/Tag: Eier, Quark, Hähnchen, Thunfisch, Milch</div></div>
+    <div class="info-card"><div class="info-card-title" style="color:#22c55e">Kohlenhydrate</div><div class="info-card-body">Hauptenergiequelle: Reis, Haferflocken, Kartoffeln, Brot</div></div>
+    <div class="info-card"><div class="info-card-title" style="color:#22c55e">Pre-Workout</div><div class="info-card-body">1–2h vorher essen (Banane + Quark oder Haferflocken)</div></div>
+    <div class="info-card"><div class="info-card-title" style="color:#22c55e">Post-Workout</div><div class="info-card-body">Innerhalb 60 Min: Protein + Carbs (z.B. Quark + Banane)</div></div>
+    <div class="info-card"><div class="info-card-title" style="color:#22c55e">Wasser</div><div class="info-card-body">Mind. 2–3 Liter pro Tag, mehr an Trainingstagen</div></div>
+    <div class="info-card" style="border-color:#3b82f640;background:#3b82f610">
+      <div class="info-card-title" style="color:#3b82f6">📋 Beispiel Tagesplan</div>
+      <div style="margin-top:4px">
+        <div class="meal-row"><span class="meal-name" style="color:#3b82f6">Frühstück</span><span class="meal-food">Haferflocken + Milch + Banane + 2 Eier</span></div>
+        <div class="meal-row"><span class="meal-name" style="color:#3b82f6">Snack</span><span class="meal-food">Quark + Früchte oder Brot + Frischkäse</span></div>
+        <div class="meal-row"><span class="meal-name" style="color:#3b82f6">Mittagessen</span><span class="meal-food">Hähnchen + Reis + Gemüse</span></div>
+        <div class="meal-row"><span class="meal-name" style="color:#3b82f6">Pre-Workout</span><span class="meal-food">Banane + Quark (1–2h vorher)</span></div>
+        <div class="meal-row"><span class="meal-name" style="color:#3b82f6">Post-Workout</span><span class="meal-food">Milch oder Proteinshake + Banane</span></div>
+        <div class="meal-row"><span class="meal-name" style="color:#3b82f6">Abendessen</span><span class="meal-food">Fleisch/Fisch + Kartoffeln + Salat</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIPPS TAB -->
+  <div id="tab-tipps" class="tab-content">
+    <div class="highlight-card" style="background:#a855f715;border:1.5px solid #a855f740">
+      <div class="highlight-title" style="color:#a855f7">🚀 Das wichtigste Prinzip</div>
+      <div class="highlight-body"><strong style="color:#f0f0f0">Progressive Überlastung</strong> – jede Woche ein bisschen mehr. Das ist der einzige Weg zu echtem Muskelwachstum.</div>
+    </div>
+    <div class="tip-card"><div class="tip-num">1</div><div class="tip-text">Progressive Überlastung: Jede Woche minimal mehr Gewicht oder eine Wiederholung mehr</div></div>
+    <div class="tip-card"><div class="tip-num">2</div><div class="tip-text">Schlaf 8–9 Stunden – Muskeln wachsen in der Ruhe, nicht im Training</div></div>
+    <div class="tip-card"><div class="tip-num">3</div><div class="tip-text">Warm-Up: 5 Min. Gelenke mobilisieren + 1 Aufwärmsatz pro Übung</div></div>
+    <div class="tip-card"><div class="tip-num">4</div><div class="tip-text">Technik vor Gewicht – lieber leichter und sauber als schwer und verletzt</div></div>
+    <div class="tip-card"><div class="tip-num">5</div><div class="tip-text">Fortschritt fotografieren und Gewichte notieren (Trainingstagebuch)</div></div>
+    <div class="tip-card"><div class="tip-num">6</div><div class="tip-text">Mit 16 reagiert der Körper sehr gut auf Training – Geduld zahlt sich aus!</div></div>
+    <div class="info-card" style="border-color:#22c55e40;background:#22c55e10">
+      <div class="info-card-title" style="color:#22c55e">📈 Realistische Erwartungen</div>
+      <div class="info-card-body">Mit 16 bist du im besten Alter zum Trainieren. In den ersten 6–12 Monaten kannst du mit konsequentem Training und guter Ernährung <strong style="color:#f0f0f0">5–10 kg saubere Muskelmasse</strong> aufbauen. Das ist phänomenal – hab Geduld!</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const days = [
+  {
+    color: "#f97316",
+    exercises: [
+      { name: "Bankdrücken (Langhantel)", sets: 4, reps: "8–10", rest: "90s", tip: "Schultern zusammenziehen, langsam runter" },
+      { name: "Enge Liegestütze (Trizepsfokus)", sets: 3, reps: "10–12", rest: "60s", tip: "Ellbogen nah am Körper" },
+      { name: "Schulterdrücken (Kurzhanteln)", sets: 3, reps: "10–12", rest: "75s", tip: "Nicht überstrecken oben" },
+      { name: "Seitliches Heben (Kurzhanteln)", sets: 3, reps: "12–15", rest: "60s", tip: "Leichtes Gewicht, saubere Form" },
+      { name: "Dips (Parallelbars)", sets: 3, reps: "8–12", rest: "90s", tip: "Leicht vorneigen = mehr Brust" },
+      { name: "Trizep-Kickbacks (Kurzhanteln)", sets: 3, reps: "12–15", rest: "60s", tip: "Arm parallel zum Boden halten" },
+    ]
+  },
+  {
+    color: "#3b82f6",
+    exercises: [
+      { name: "Klimmzüge (Krossbar)", sets: 4, reps: "Max. Wdh.", rest: "90s", tip: "Volle Streckung unten, Kinn über die Stange" },
+      { name: "Kurzhantel-Rudern (einarmig)", sets: 3, reps: "10–12", rest: "75s", tip: "Ellbogen nah, Rücken gerade" },
+      { name: "Langhantel-Rudern (vorgebeugt)", sets: 3, reps: "8–10", rest: "90s", tip: "Rücken flach, Stange zum Bauch ziehen" },
+      { name: "Bizep-Curls (Langhantel)", sets: 4, reps: "10–12", rest: "60s", tip: "Kein Schwung! Langsam senken" },
+      { name: "Hammer-Curls (Kurzhanteln)", sets: 3, reps: "12–15", rest: "60s", tip: "Daumen nach oben, stärkt Unterarm" },
+      { name: "Reverse Fly (Kurzhanteln)", sets: 3, reps: "15", rest: "60s", tip: "Schulterstabilität – nicht überspringen!" },
+    ]
+  },
+  {
+    color: "#22c55e",
+    exercises: [
+      { name: "Kniebeugen (Langhantel / Goblet)", sets: 4, reps: "8–10", rest: "90s", tip: "Knie über die Zehen, aufrechter Oberkörper" },
+      { name: "Ausfallschritte (Kurzhanteln)", sets: 3, reps: "10 pro Bein", rest: "75s", tip: "Großer Schritt, Knie nicht über die Zehe" },
+      { name: "Rumänisches Kreuzheben (Langhantel)", sets: 3, reps: "10–12", rest: "90s", tip: "Stange nah am Körper, Hintern nach hinten" },
+      { name: "Wadenheben (einbeinig)", sets: 4, reps: "15–20", rest: "45s", tip: "Volle Streckung oben halten" },
+      { name: "Plank", sets: 3, reps: "45–60 Sek.", rest: "45s", tip: "Hüfte nicht hochziehen, Körper gerade" },
+      { name: "Hängendes Knieheben (Klimmzugstange)", sets: 3, reps: "12–15", rest: "60s", tip: "Kontrolliert, kein Schwingen" },
+    ]
+  },
+  {
+    color: "#a855f7",
+    exercises: [
+      { name: "Liegestütze (normal)", sets: 3, reps: "15–20", rest: "60s", tip: "Aktivierungseinheit, nicht zu schwer" },
+      { name: "Klimmzüge (Untergriff)", sets: 3, reps: "Max. Wdh.", rest: "90s", tip: "Untergriff aktiviert mehr Bizeps" },
+      { name: "Arnold Press (Kurzhanteln)", sets: 3, reps: "12", rest: "75s", tip: "Rotation beim Drücken – volle Schulteraktivierung" },
+      { name: "Kurzhantel-Bankdrücken", sets: 3, reps: "12", rest: "75s", tip: "Kurzhanteln = größere Bewegungsreichweite" },
+      { name: "Konzentrations-Curls (Kurzhanteln)", sets: 3, reps: "12–15", rest: "60s", tip: "Ellbogen auf dem Knie abstützen" },
+      { name: "Dips (Trizepsfokus)", sets: 3, reps: "10–15", rest: "75s", tip: "Aufrecht bleiben = Trizeps, vorneigen = Brust" },
+    ]
+  }
+];
+
+let currentDay = 0;
+let currentColor = "#f97316";
+let checked = {};
+
+function renderExercises() {
+  const list = document.getElementById("exercise-list");
+  const d = days[currentDay];
+  list.innerHTML = "";
+  d.exercises.forEach((ex, i) => {
+    const key = `${currentDay}-${i}`;
+    const isDone = !!checked[key];
+    const card = document.createElement("div");
+    card.className = "ex-card" + (isDone ? " done" : "");
+    card.style.borderColor = isDone ? currentColor : "var(--border)";
+    card.style.background = isDone ? currentColor + "18" : "var(--card)";
+    card.innerHTML = `
+      <div class="ex-row">
+        <div class="ex-check ${isDone ? 'checked' : ''}" style="${isDone ? 'background:'+currentColor : ''}">
+          ${isDone ? "✓" : ""}
+        </div>
+        <div style="flex:1">
+          <div class="ex-name ${isDone ? 'done' : ''}">${ex.name}</div>
+          <div class="ex-tags">
+            <span class="ex-tag"><span style="color:${currentColor}">Sätze:</span> ${ex.sets}</span>
+            <span class="ex-tag"><span style="color:${currentColor}">Wdh.:</span> ${ex.reps}</span>
+            <span class="ex-tag"><span style="color:${currentColor}">Pause:</span> ${ex.rest}</span>
+          </div>
+          <div class="ex-tipp">💡 ${ex.tip}</div>
+        </div>
+      </div>`;
+    card.onclick = () => {
+      checked[key] = !checked[key];
+      renderExercises();
+      updateProgress();
+    };
+    list.appendChild(card);
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = days[currentDay].exercises.length;
+  const done = days[currentDay].exercises.filter((_, i) => checked[`${currentDay}-${i}`]).length;
+  document.getElementById("prog-count").textContent = `${done}/${total}`;
+  document.getElementById("prog-count").style.color = currentColor;
+  document.getElementById("prog-bar").style.width = `${(done/total)*100}%`;
+  document.getElementById("prog-bar").style.background = currentColor;
+}
+
+function selectDay(idx, el, color) {
+  currentDay = idx;
+  currentColor = color;
+  document.querySelectorAll(".day-card").forEach(c => {
+    c.classList.remove("active");
+    c.querySelector(".day-name").style.color = "var(--text)";
+  });
+  el.classList.add("active");
+  el.querySelector(".day-name").style.color = color;
+  renderExercises();
+}
+
+function showTab(name, btn) {
+  document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("tab-" + name).classList.add("active");
+  btn.classList.add("active");
+}
+
+renderExercises();
+</script>
+</body>
+</html>
