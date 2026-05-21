@@ -30,128 +30,57 @@
     padding-bottom: 100px;
     -webkit-tap-highlight-color: transparent;
   }
-
-  /* HEADER */
   .header {
     background: linear-gradient(160deg, #1a1a2e 0%, #0f3460 100%);
     padding: 48px 20px 24px;
     border-bottom: 1px solid var(--border);
   }
-  .header-label {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--muted); margin-bottom: 6px;
-  }
-  .header h1 {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 36px; font-weight: 900; letter-spacing: -0.5px;
-    line-height: 1;
-  }
-  .stats {
-    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px;
-  }
-  .stat {
-    background: #ffffff0d; border-radius: 10px; padding: 8px 14px;
-  }
+  .header-label { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .header h1 { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 900; letter-spacing: -0.5px; line-height: 1; }
+  .stats { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  .stat { background: #ffffff0d; border-radius: 10px; padding: 8px 14px; }
   .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
   .stat-val { font-size: 15px; font-weight: 700; }
-
-  /* TABS */
   .tabs { padding: 14px 16px 0; }
-  .tab-bar {
-    display: flex; gap: 6px; background: #161620;
-    border-radius: 12px; padding: 4px;
-  }
-  .tab-btn {
-    flex: 1; padding: 10px 0; border-radius: 9px; border: none;
-    cursor: pointer; font-family: 'Barlow', sans-serif;
-    font-weight: 700; font-size: 13px; transition: all 0.2s;
-    background: transparent; color: var(--muted);
-  }
+  .tab-bar { display: flex; gap: 6px; background: #161620; border-radius: 12px; padding: 4px; }
+  .tab-btn { flex: 1; padding: 10px 0; border-radius: 9px; border: none; cursor: pointer; font-family: 'Barlow', sans-serif; font-weight: 700; font-size: 13px; transition: all 0.2s; background: transparent; color: var(--muted); }
   .tab-btn.active { background: var(--blue); color: #fff; }
-
-  /* CONTENT */
   .content { padding: 16px; }
-
-  /* DAY GRID */
   .day-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
-  .day-card {
-    background: var(--card); border: 2px solid var(--border);
-    border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .day-card { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
   .day-card.active { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 12%, transparent); }
   .day-emoji { font-size: 22px; margin-bottom: 4px; }
   .day-name { font-weight: 800; font-size: 14px; }
   .day-desc { font-size: 11px; color: var(--muted); margin-top: 3px; }
-
-  /* PROGRESS */
-  .progress-box {
-    background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px;
-  }
+  .progress-box { background: var(--card); border-radius: 12px; padding: 14px 16px; margin-bottom: 18px; }
   .progress-header { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: #94a3b8; }
   .progress-count { font-weight: 700; }
   .progress-bar-bg { background: #ffffff10; border-radius: 100px; height: 8px; overflow: hidden; }
-  .progress-bar-fill {
-    height: 100%; border-radius: 100px; transition: width 0.4s ease;
-  }
-
-  /* EXERCISES */
+  .progress-bar-fill { height: 100%; border-radius: 100px; transition: width 0.4s ease; }
   .exercise-list { display: flex; flex-direction: column; gap: 10px; }
-  .ex-card {
-    background: var(--card); border: 1.5px solid var(--border);
-    border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s;
-    -webkit-tap-highlight-color: transparent;
-  }
+  .ex-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 14px; cursor: pointer; transition: all 0.2s; -webkit-tap-highlight-color: transparent; }
   .ex-card.done { opacity: 0.65; }
   .ex-row { display: flex; align-items: flex-start; gap: 12px; }
-  .ex-check {
-    width: 26px; height: 26px; border-radius: 8px; background: #ffffff10;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
-    transition: all 0.2s;
-  }
+  .ex-check { width: 26px; height: 26px; border-radius: 8px; background: #ffffff10; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; flex-shrink: 0; margin-top: 1px; transition: all 0.2s; }
   .ex-check.checked { color: #fff; }
   .ex-name { font-weight: 700; font-size: 15px; transition: all 0.2s; }
   .ex-name.done { text-decoration: line-through; color: var(--muted); }
   .ex-tags { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
-  .ex-tag {
-    font-size: 11px; background: #ffffff0d; border-radius: 6px;
-    padding: 3px 9px; color: #94a3b8;
-  }
+  .ex-tag { font-size: 11px; background: #ffffff0d; border-radius: 6px; padding: 3px 9px; color: #94a3b8; }
   .ex-tag span { font-weight: 700; }
   .ex-tipp { font-size: 12px; color: var(--muted); margin-top: 9px; font-style: italic; }
-
-  /* NUTRITION */
-  .info-card {
-    background: var(--card); border: 1.5px solid var(--border);
-    border-radius: 14px; padding: 16px; margin-bottom: 12px;
-  }
+  .info-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 12px; }
   .info-card-title { font-weight: 800; font-size: 14px; margin-bottom: 6px; }
   .info-card-body { font-size: 13px; color: #94a3b8; line-height: 1.65; }
   .meal-row { display: flex; gap: 10px; margin-bottom: 8px; font-size: 12px; }
   .meal-name { font-weight: 700; min-width: 95px; }
   .meal-food { color: #94a3b8; }
-
-  /* TIPS */
-  .tip-card {
-    background: var(--card); border: 1.5px solid var(--border);
-    border-radius: 14px; padding: 16px; margin-bottom: 10px;
-    display: flex; gap: 12px; align-items: flex-start;
-  }
-  .tip-num {
-    width: 30px; height: 30px; border-radius: 9px;
-    background: #a855f720; display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 800; color: var(--purple); flex-shrink: 0;
-  }
+  .tip-card { background: var(--card); border: 1.5px solid var(--border); border-radius: 14px; padding: 16px; margin-bottom: 10px; display: flex; gap: 12px; align-items: flex-start; }
+  .tip-num { width: 30px; height: 30px; border-radius: 9px; background: #a855f720; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 800; color: var(--purple); flex-shrink: 0; }
   .tip-text { font-size: 13px; color: #cbd5e1; line-height: 1.65; }
-
-  .highlight-card {
-    border-radius: 14px; padding: 16px; margin-bottom: 14px;
-  }
+  .highlight-card { border-radius: 14px; padding: 16px; margin-bottom: 14px; }
   .highlight-title { font-size: 14px; font-weight: 800; margin-bottom: 6px; }
   .highlight-body { font-size: 13px; color: #cbd5e1; line-height: 1.65; }
-
-  /* HIDDEN */
   .tab-content { display: none; }
   .tab-content.active { display: block; }
 </style>
@@ -184,22 +113,22 @@
     <div class="day-grid">
       <div class="day-card active" style="--accent:#f97316" onclick="selectDay(0,this,'#f97316')">
         <div class="day-emoji">🔥</div>
-        <div class="day-name" style="color:#f97316">Dienstag</div>
+        <div class="day-name" style="color:#f97316">Montag</div>
         <div class="day-desc">PUSH · Brust, Schultern, Trizeps</div>
       </div>
       <div class="day-card" style="--accent:#3b82f6" onclick="selectDay(1,this,'#3b82f6')">
         <div class="day-emoji">💪</div>
-        <div class="day-name">Donnerstag</div>
+        <div class="day-name">Dienstag</div>
         <div class="day-desc">PULL · Rücken, Bizeps</div>
       </div>
       <div class="day-card" style="--accent:#22c55e" onclick="selectDay(2,this,'#22c55e')">
         <div class="day-emoji">🦵</div>
-        <div class="day-name">Samstag</div>
+        <div class="day-name">Mittwoch</div>
         <div class="day-desc">LEGS · Beine & Core</div>
       </div>
       <div class="day-card" style="--accent:#a855f7" onclick="selectDay(3,this,'#a855f7')">
         <div class="day-emoji">⚡</div>
-        <div class="day-name">Sonntag</div>
+        <div class="day-name">Donnerstag</div>
         <div class="day-desc">UPPER · Oberkörper</div>
       </div>
     </div>
